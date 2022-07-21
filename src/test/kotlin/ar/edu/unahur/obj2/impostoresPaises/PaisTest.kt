@@ -39,7 +39,7 @@ class PaisTest: DescribeSpec({
         }
 
         it("Uruguay no es limítrofe de Canadá") {
-            assert(argentina.esLimitrofeDe(uruguay).shouldBeTrue())
+            assert(uruguay.esLimitrofeDe(canada).shouldBeFalse())
         }
 
         it("Consultar si Argentina es limítrofe de Argentina debe devolver un error") {

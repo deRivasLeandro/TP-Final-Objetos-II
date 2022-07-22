@@ -15,6 +15,18 @@ class ObservatorioTest: DescribeSpec ({
             assert(observatorio.sonLimitrofes("Uruguay", "Canadá").shouldBeFalse())
         }
 
+        it("Consultar al observatorio si Uruguay es limítrofe de Chad, pero Chad no está registrado") {
+            assertThrows<Error> { (observatorio.sonLimitrofes("Uruguay", "Chad")) }
+        }
+
+        it("Consultar al observatorio si Panamá es limítrofe de Argentina, pero Panamá no está registrado") {
+            assertThrows<Error> { (observatorio.sonLimitrofes("Panamá", "Argentina")) }
+        }
+
+        it("Consultar al observatorio si Panamá es limítrofe de Chad, pero ninguno de los dos están registrados") {
+            assertThrows<Error> { (observatorio.sonLimitrofes("Panamá", "Chad")) }
+        }
+
         it("Consultar al observatorio si Argentina es limítrofe de Argentina debe devolver un error") {
             assertThrows<Error> { observatorio.sonLimitrofes("Argentina", "Argentina") }
         }
@@ -23,24 +35,60 @@ class ObservatorioTest: DescribeSpec ({
             assert(observatorio.necesitanTraductor("Argentina", "Canadá").shouldBeTrue())
         }
 
-        it("Consultar al observatorio si Argentina no necesita traductor con Uruguay") {
+        it("Consultar al observatorio si Argentina necesita traductor con Uruguay") {
             assert(observatorio.necesitanTraductor("Argentina", "Uruguay").shouldBeFalse())
+        }
+
+        it("Consultar al observatorio si Argentina necesita traductor con Chad, pero Chad no está registrado") {
+            assertThrows<Error> { (observatorio.necesitanTraductor("Argentina", "Chad")) }
+        }
+
+        it("Consultar al observatorio si Panamá necesita traductor con Argentina, pero Panamá no está registrado") {
+            assertThrows<Error> { (observatorio.necesitanTraductor("Panamá", "Argentina")) }
+        }
+
+        it("Consultar al observatorio si Panamá necesita traductor con Chad, pero ninguno de los dos están registrados") {
+            assertThrows<Error> { (observatorio.necesitanTraductor("Panamá", "Chad")) }
         }
 
         it("Consultar al observatorio si Argentina es potencial aliado de Uruguay") {
             assert(observatorio.sonPotencialesAliados("Argentina", "Uruguay").shouldBeTrue())
         }
 
-        it("Consultar al observatorio si Canadá no es potencial aliado de Brasil") {
+        it("Consultar al observatorio si Canadá es potencial aliado de Brasil") {
             assert(observatorio.sonPotencialesAliados("Canada", "Brasil").shouldBeFalse())
+        }
+
+        it("Consultar al observatorio si Argentina es potencial aliado de Chad, pero Chad no está registrado") {
+            assertThrows<Error> { (observatorio.sonPotencialesAliados("Argentina", "Chad")) }
+        }
+
+        it("Consultar al observatorio si Panamá es potencial aliado de Argentina, pero Panamá no está registrado") {
+            assertThrows<Error> { (observatorio.sonPotencialesAliados("Panamá", "Argentina")) }
+        }
+
+        it("Consultar al observatorio si Panamá es potencial aliado de Chad, pero ninguno de los dos están registrados") {
+            assertThrows<Error> { (observatorio.sonPotencialesAliados("Panamá", "Chad")) }
         }
 
         it("Consultar al observatorio si Conviene ir de Uruguay a Argentina a comprar") {
             assert(observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Uruguay", "Argentina").shouldBeTrue())
         }
 
-        it("Consultar al observatorio si No conviene ir de Argentina a Brasil a comprar") {
+        it("Consultar al observatorio si conviene ir de Argentina a Brasil a comprar") {
             assert(observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Argentina", "Brasil").shouldBeFalse())
+        }
+
+        it("Consultar al observatorio si conviene ir de Argentina a Chad a comprar, pero Chad no está registrado") {
+            assertThrows<Error> { (observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Argentina", "Chad")) }
+        }
+
+        it("Consultar al observatorio si conviene ir de Panamá a Argentina a comprar, pero Panamá no está registrado") {
+            assertThrows<Error> { (observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Panamá", "Argentina")) }
+        }
+
+        it("Consultar al observatorio si conviene ir de Panamá a Chad a comprar, pero ninguno de los dos están registrados") {
+            assertThrows<Error> { (observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Panamá", "Chad")) }
         }
 
         it("Consultar al observatorio si Consultar si conviene ir a comprar de Argentina a Argentina debe devolver un error") {
@@ -49,6 +97,18 @@ class ObservatorioTest: DescribeSpec ({
 
         it("Consultar al observatorio si 11111123123123123 pesos argentinos equivalen a 12312412412412412 reales de Brasil"){
             assert(observatorio.aCuantoEquivale("Argentina", "Brasil", 123123123124).shouldBe(123123124124))
+        }
+
+        it("Consultar al observatorio si 11111123123123123 pesos argentinos equivalen a 12312412412412412 francos de Chad, pero Chad no está registrado") {
+            assertThrows<Error> { (observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Argentina", "Chad")) }
+        }
+
+        it("Consultar al observatorio si 11111123123123123 balboas panameños equivalen a 12312412412412412 pesos argentinos, pero Panamá no está registrado") {
+            assertThrows<Error> { (observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Panamá", "Argentina")) }
+        }
+
+        it("Consultar al observatorio si 11111123123123123 balboas panameños equivalen a 12312412412412412 francos de Chad, pero ninguno de los dos están registrados") {
+            assertThrows<Error> { (observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Panamá", "Chad")) }
         }
 
     }

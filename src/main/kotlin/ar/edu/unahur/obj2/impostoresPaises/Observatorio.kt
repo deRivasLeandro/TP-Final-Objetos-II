@@ -63,7 +63,7 @@ object Observatorio {
         return listaIso
     }
 
-    fun continenteMasPlurinacional(): String? {
+    fun continenteMasPlurinacional(): String {
         val cantidadPorContinente = mutableMapOf<String, Int>()
         for(pais in paises) {
             if(pais.esPlurinacional()) {
@@ -71,7 +71,18 @@ object Observatorio {
                 cantidadPorContinente[pais.continente] = nuevoValue+1
             }
         }
-        return cantidadPorContinente.maxOfOrNull { c -> c.key }
+        if (cantidadPorContinente.isEmpty()) {
+            error("No hay continentes con países plurinacionales.")
+        }
+        var continenteConMasPlurinacionales = ""
+        var cantidadDePlurinacionales = 0
+        for(continente in cantidadPorContinente) {
+            if(continente.value > cantidadDePlurinacionales) {
+                cantidadDePlurinacionales = continente.value
+                continenteConMasPlurinacionales = continente.key
+            }
+        }
+        return continenteConMasPlurinacionales
     }
 
     fun promedioDensidadPoblacionalDeIslas(): Double {

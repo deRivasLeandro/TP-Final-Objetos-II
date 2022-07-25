@@ -13,6 +13,7 @@ class PaisTest: DescribeSpec({
     val uruguay = Pais("Uruguay", "URY", 3554915, 	176215.0, "América", "UYU", 41.4, mutableSetOf("Mercosur"), mutableSetOf("Español"))
     val canada = Pais("Canadá", "CAN", 38246108, 9984670.0, "América", "CAD", 1.29, mutableSetOf("Otán", "G7"), mutableSetOf("Inglés", "Francés"))
     val nuevaZelanda = Pais("Nueva Zelanda", "NZL", 5006020, 268838.0, "Oceanía", "NZD", 1.59, mutableSetOf(), mutableSetOf("Inglés", "Maorí"))
+
     argentina.agregarPaisesLimitrofes(mutableSetOf(brasil, uruguay))
     uruguay.agregarPaisesLimitrofes(mutableSetOf(brasil, argentina))
     brasil.agregarPaisesLimitrofes(mutableSetOf(argentina, uruguay))

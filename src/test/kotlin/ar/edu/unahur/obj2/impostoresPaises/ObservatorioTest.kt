@@ -16,16 +16,25 @@ class ObservatorioTest: DescribeSpec ({
     val uruguay = Pais("Uruguay", "URY", 3554915, 	176215.0, "América", "UYU", 41.4, mutableSetOf("Mercosur"), mutableSetOf("Español"))
     val canada = Pais("Canadá", "CAN", 38246108, 9984670.0, "América", "CAD", 1.29, mutableSetOf("Otán", "G7"), mutableSetOf("Inglés", "Francés"))
     val nuevaZelanda = Pais("Nueva Zelanda", "NZL", 5006020, 268838.0, "Oceanía", "NZD", 1.59, mutableSetOf(), mutableSetOf("Inglés", "Maorí"))
-    //ARREGLAR ESTADOS UNIDOS
-    val eeuu = Pais("Estados Unidos", "USA", 38246108, 9984670.0, "América", "CAD", 1.29, mutableSetOf("Otán", "G7"), mutableSetOf("Inglés", "Francés"))
+    val eeuu = Pais("Estados Unidos", "USA", 331449281, 9147593.0, "América", "USD", 1.0, mutableSetOf("Otán", "G7"), mutableSetOf("Inglés", "Español"))
+    val madagascar = Pais("Madagascar", "MAD", 26251309, 587041.0, "África", "MGA", 4161.62, mutableSetOf("UA"), mutableSetOf("Francés", "Malgache"))
+    val china = Pais("China", "CHN", 1403500365, 9596960.0, "Asia", "CNY", 6.75, mutableSetOf(), mutableSetOf("Chino"))
+    val india = Pais("India", "IND", 1372065957, 3287263.0, "Asia", "INR", 79.72, mutableSetOf(), mutableSetOf("Hindi", "Inglés"))
+    val italia = Pais("Italia", "ITA", 60257566, 301340.0, "Europa", "EUR", 0.97, mutableSetOf("UEA", "Otán", "G7"), mutableSetOf("Italiano"))
+    val francia = Pais("Francia", "FRA", 67407241, 675417.0, "Europa", "EUR", 0.97, mutableSetOf("UEA"), mutableSetOf("Francés"))
+
     argentina.agregarPaisesLimitrofes(mutableSetOf(brasil, uruguay))
     uruguay.agregarPaisesLimitrofes(mutableSetOf(brasil, argentina))
     brasil.agregarPaisesLimitrofes(mutableSetOf(argentina, uruguay))
     canada.agregarPaisesLimitrofes(mutableSetOf(eeuu))
     eeuu.agregarPaisesLimitrofes(mutableSetOf(canada))
-    Observatorio.paises = mutableSetOf(argentina, uruguay, brasil, canada, eeuu, nuevaZelanda)
+    china.agregarPaisesLimitrofes(mutableSetOf(india))
+    india.agregarPaisesLimitrofes(mutableSetOf(china))
+    italia.agregarPaisesLimitrofes(mutableSetOf(francia))
+    francia.agregarPaisesLimitrofes(mutableSetOf(italia))
+    Observatorio.paises = mutableSetOf(argentina, uruguay, brasil, canada, eeuu, nuevaZelanda, madagascar, china, india, italia, francia)
 
-    describe("Tests unitarios para el observatorio con dos paises") {
+    describe("Tests unitarios para el observatorio con dos países") {
         it("Consultar al observatorio si Uruguay es limítrofe de Argentina") {
             Observatorio.sonLimitrofes("Argentina", "Uruguay").shouldBeTrue()
         }
@@ -129,20 +138,22 @@ class ObservatorioTest: DescribeSpec ({
         it("Consultar al observatorio si 11111123123123123 balboas panameños equivalen a 12312412412412412 francos de Chad, pero ninguno de los dos están registrados") {
             shouldThrowAny { (Observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Panamá", "Chad")) }
         }
-
     }
 
     describe("Tests unitarios para el observatorio con todos los países") {
         it("Obtener los códigos de los cinco países con mayor densidad poblacional"){
-            Observatorio.obtenerPaisesConMayorDensidad().shouldBe(mutableSetOf("BRA", "URY", "NZL", "ARG", "CAN"))
+            //Los cinco países son: IND(417.3), ITA(199.9), CHN(146.2), FRA(99.8), MAD(44.7)
+            Observatorio.obtenerPaisesConMayorDensidad().shouldBe(mutableSetOf("IND", "ITA", "CHN", "FRA", "MAD"))
         }
 
         it("Obtener el continente con más países plurinacionales"){
-           Observatorio.continenteMasPlurinacional().shouldBe("Oceanía")
+            // El único continente con dos países plurinacionales es América (Canadá y EEUU)
+           Observatorio.continenteMasPlurinacional().shouldBe("América")
         }
 
         it("Obtener el promedio de la densidad poblacional de las islas") {
-            Observatorio.promedioDensidadPoblacionalDeIslas().shouldBe(19)
+            // 19 (NZL) + 45 (MAD) = 64 / 2(cantIslas) = 32
+            Observatorio.promedioDensidadPoblacionalDeIslas().shouldBe(32)
         }
     }
 })

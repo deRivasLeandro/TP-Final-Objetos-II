@@ -123,20 +123,20 @@ class ObservatorioTest: DescribeSpec ({
             shouldThrowAny { Observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Argentina", "Argentina") }
         }
 
-        it("Consultar al observatorio si 5000 pesos argentinos equivalen a 198.5 reales de Brasil"){
+        it("Consultar al observatorio a cuánto equivalen $5000 argentinos en reales brasileros"){
             Observatorio.aCuantoEquivale("Argentina", "Brasil", 5000.0).shouldBe(198.52.plusOrMinus(0.1))
         }
 
-        it("Consultar al observatorio si 11111123123123123 pesos argentinos equivalen a 12312412412412412 francos de Chad, pero Chad no está registrado") {
-            shouldThrowAny { (Observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Argentina", "Chad")) }
+        it("Consultar al observatorio a cuánto equivalen $2000 argentinos en francos de Chad, pero Chad no está registrado") {
+            shouldThrowAny { (Observatorio.aCuantoEquivale("Argentina", "Chad", 2000.0)) }
         }
 
-        it("Consultar al observatorio si 11111123123123123 balboas panameños equivalen a 12312412412412412 pesos argentinos, pero Panamá no está registrado") {
-            shouldThrowAny { (Observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Panamá", "Argentina")) }
+        it("Consultar al observatorio a cuánto equivalen $10000 balboas panameñas en pesos argentinos, pero Panamá no está registrado") {
+            shouldThrowAny { (Observatorio.aCuantoEquivale("Panamá", "Argentina", 10000.0)) }
         }
 
-        it("Consultar al observatorio si 11111123123123123 balboas panameños equivalen a 12312412412412412 francos de Chad, pero ninguno de los dos están registrados") {
-            shouldThrowAny { (Observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Panamá", "Chad")) }
+        it("Consultar al observatorio a cuánto equivalen $5000 balboas panameñas en francos de Chad, pero ninguno de los dos están registrados") {
+            shouldThrowAny { (Observatorio.aCuantoEquivale("Panamá", "Chad", 5000.0)) }
         }
     }
 

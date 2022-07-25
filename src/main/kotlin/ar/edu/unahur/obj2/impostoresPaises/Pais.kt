@@ -13,7 +13,7 @@ class Pais(var nombre: String, var iso3: String, var poblacion: Int, var superfi
     fun densidadPoblacional(): Int { return (poblacion/superficie).roundToInt() }
 
     //Aseguramos que este método nunca va a devolver null porque agregamos al país que lo llama a la lista de limítrofes, entonces si no tiene limítrofes simplemente se retorna a él mismo
-    fun vecinoMasPoblado(): Pais { return paisesLimitrofes.plus(this).maxBy { it.poblacion }!! }
+    fun vecinoMasPoblado(): Pais { return paisesLimitrofes.plus(this).maxByOrNull { it.poblacion }!! }
 
     fun esLimitrofeDe(pais: Pais): Boolean {
         if(pais == this){ error("Un país no puede ser limítrofe de sí mismo.") }
@@ -26,7 +26,7 @@ class Pais(var nombre: String, var iso3: String, var poblacion: Int, var superfi
 
     fun esPotencialAliadoDe(pais: Pais): Boolean { return ! necesitaTraductorCon(pais) && pertenecenAUnMismoBloque(pais) }
 
-    fun convieneIrDeCompras(pais: Pais): Boolean {
+    fun convieneIrDeComprasA(pais: Pais): Boolean {
         if(pais == this){ error("La consulta debe hacerse entre dos países diferentes.") }
         return cotizacionDolar < pais.cotizacionDolar
     }
@@ -37,4 +37,7 @@ class Pais(var nombre: String, var iso3: String, var poblacion: Int, var superfi
 
     fun sacarPaises(paises: MutableSet<Pais>) { paisesLimitrofes.removeAll(paises) }
 
+    override fun toString(): String {
+        return nombre
+    }
 }

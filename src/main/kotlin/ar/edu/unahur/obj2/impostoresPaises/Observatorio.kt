@@ -5,7 +5,7 @@ package ar.edu.unahur.obj2.impostoresPaises
 object Observatorio {
     var paises: MutableSet<Pais> = mutableSetOf()
 
-    fun agregarPaises(paises: MutableSet<Pais>) { paises.addAll(paises) }
+    fun agregarPaises(paisesAdd: MutableSet<Pais>) { paises.addAll(paisesAdd) }
 
     fun sacarPaises(paises: MutableSet<Pais>) { paises.removeAll(paises) }
 
@@ -42,7 +42,7 @@ object Observatorio {
         if(pais == null && pais2 == null) { error("Los países $paisNombre y $pais2Nombre no se encuentran registrados en el observatorio.") }
         if(pais == null){ error("El país $paisNombre no se encuentra registrado en el observatorio.") }
         if(pais2 == null){ error("El país $pais2Nombre no se encuentra registrado en el observatorio.") }
-        return pais.convieneIrDeCompras(pais2)
+        return pais.convieneIrDeComprasA(pais2)
     }
 
     fun aCuantoEquivale(paisNombre: String, pais2Nombre: String, monto: Double): Double {
@@ -55,7 +55,7 @@ object Observatorio {
     }
 
     fun obtenerPaisesConMayorDensidad(): MutableList<String> {
-        val paisesIso = paises.sortedBy { p -> p.densidadPoblacional() }.toList()
+        val paisesIso = paises.sortedByDescending { p -> p.densidadPoblacional() }
         val listaIso: MutableList<String> = mutableListOf()
         for(i in 0..4) {
             listaIso.add(paisesIso[i].iso3)
@@ -63,7 +63,7 @@ object Observatorio {
         return listaIso
     }
 
-    fun contienenteMasPlurinacional(): String? {
+    fun continenteMasPlurinacional(): String? {
         val cantidadPorContinente = mutableMapOf<String, Int>()
         for(pais in paises) {
             if(pais.esPlurinacional()) {
@@ -77,13 +77,13 @@ object Observatorio {
     fun promedioDensidadPoblacionalDeIslas(): Double {
         var sumaDensidad = 0
         var cantidadIslas = 0
-        for(pais in paises) {
-            if(pais.esIsla()) {
+        for (pais in paises) {
+            if (pais.esIsla()) {
                 sumaDensidad += pais.densidadPoblacional()
                 cantidadIslas += 1
             }
         }
-        return sumaDensidad/cantidadIslas.toDouble()
+        return sumaDensidad / cantidadIslas.toDouble()
     }
 
 }

@@ -11,7 +11,9 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.assertThrows
 class ObservatorioTest: DescribeSpec ({
 
-    val argentina: Pais = Pais("Argentina", "ARG", 47327407, 2780400.0,"América", "ARS", 136.0, mutableSetOf("Mercosur"), mutableSetOf("Español"))
+    val decorador = ConcreteDecorator(Observatorio)
+
+    val argentina = Pais("Argentina", "ARG", 47327407, 2780400.0,"América", "ARS", 136.0, mutableSetOf("Mercosur"), mutableSetOf("Español"))
     val brasil = Pais("Brasil", "BRA", 217240060, 	8515770.0, "América", "BRL", 5.4, mutableSetOf("Mercosur"), mutableSetOf("Portugués"))
     val uruguay = Pais("Uruguay", "URY", 3554915, 	176215.0, "América", "UYU", 41.4, mutableSetOf("Mercosur"), mutableSetOf("Español"))
     val canada = Pais("Canadá", "CAN", 38246108, 9984670.0, "América", "CAD", 1.29, mutableSetOf("Otán", "G7"), mutableSetOf("Inglés", "Francés"))
@@ -36,124 +38,123 @@ class ObservatorioTest: DescribeSpec ({
 
     describe("Tests unitarios para el observatorio con dos países") {
         it("Consultar al observatorio si Uruguay es limítrofe de Argentina") {
-            Observatorio.sonLimitrofes("Argentina", "Uruguay").shouldBeTrue()
+            decorador.sonLimitrofes("Argentina", "Uruguay").shouldBeTrue()
         }
 
         it("Consultar al observatorio si Uruguay no es limítrofe de Canadá") {
-            Observatorio.sonLimitrofes("Uruguay", "Canadá").shouldBeFalse()
+            decorador.sonLimitrofes("Uruguay", "Canadá").shouldBeFalse()
         }
 
         it("Consultar al observatorio si Uruguay es limítrofe de Chad, pero Chad no está registrado") {
-            shouldThrowAny { (Observatorio.sonLimitrofes("Uruguay", "Chad")) }
+            shouldThrowAny { (decorador.sonLimitrofes("Uruguay", "Chad")) }
         }
 
         it("Consultar al observatorio si Panamá es limítrofe de Argentina, pero Panamá no está registrado") {
-            shouldThrowAny { (Observatorio.sonLimitrofes("Panamá", "Argentina")) }
+            shouldThrowAny { (decorador.sonLimitrofes("Panamá", "Argentina")) }
         }
 
         it("Consultar al observatorio si Panamá es limítrofe de Chad, pero ninguno de los dos están registrados") {
-            shouldThrowAny { (Observatorio.sonLimitrofes("Panamá", "Chad")) }
+            shouldThrowAny { (decorador.sonLimitrofes("Panamá", "Chad")) }
         }
 
         it("Consultar al observatorio si Argentina es limítrofe de Argentina debe devolver un error") {
-            shouldThrowAny { Observatorio.sonLimitrofes("Argentina", "Argentina") }
+            shouldThrowAny { decorador.sonLimitrofes("Argentina", "Argentina") }
         }
 
         it("Consultar al observatorio si Argentina necesita traductor con Canadá") {
-            Observatorio.necesitanTraductor("Argentina", "Canadá").shouldBeTrue()
+            decorador.necesitanTraductor("Argentina", "Canadá").shouldBeTrue()
         }
 
         it("Consultar al observatorio si Argentina necesita traductor con Uruguay") {
-            Observatorio.necesitanTraductor("Argentina", "Uruguay").shouldBeFalse()
+            decorador.necesitanTraductor("Argentina", "Uruguay").shouldBeFalse()
         }
 
         it("Consultar al observatorio si Argentina necesita traductor con Chad, pero Chad no está registrado") {
-            shouldThrowAny { (Observatorio.necesitanTraductor("Argentina", "Chad")) }
+            shouldThrowAny { (decorador.necesitanTraductor("Argentina", "Chad")) }
         }
 
         it("Consultar al observatorio si Panamá necesita traductor con Argentina, pero Panamá no está registrado") {
-            shouldThrowAny { (Observatorio.necesitanTraductor("Panamá", "Argentina")) }
+            shouldThrowAny { (decorador.necesitanTraductor("Panamá", "Argentina")) }
         }
 
         it("Consultar al observatorio si Panamá necesita traductor con Chad, pero ninguno de los dos están registrados") {
-            shouldThrowAny { (Observatorio.necesitanTraductor("Panamá", "Chad")) }
+            shouldThrowAny { (decorador.necesitanTraductor("Panamá", "Chad")) }
         }
 
         it("Consultar al observatorio si Argentina es potencial aliado de Uruguay") {
-            Observatorio.sonPotencialesAliados("Argentina", "Uruguay").shouldBeTrue()
+            decorador.sonPotencialesAliados("Argentina", "Uruguay").shouldBeTrue()
         }
 
         it("Consultar al observatorio si Canadá es potencial aliado de Brasil") {
-            Observatorio.sonPotencialesAliados("Canadá", "Brasil").shouldBeFalse()
+            decorador.sonPotencialesAliados("Canadá", "Brasil").shouldBeFalse()
         }
 
         it("Consultar al observatorio si Argentina es potencial aliado de Chad, pero Chad no está registrado") {
-            shouldThrowAny { (Observatorio.sonPotencialesAliados("Argentina", "Chad")) }
+            shouldThrowAny { (decorador.sonPotencialesAliados("Argentina", "Chad")) }
         }
 
         it("Consultar al observatorio si Panamá es potencial aliado de Argentina, pero Panamá no está registrado") {
-            shouldThrowAny { (Observatorio.sonPotencialesAliados("Panamá", "Argentina")) }
+            shouldThrowAny { (decorador.sonPotencialesAliados("Panamá", "Argentina")) }
         }
 
         it("Consultar al observatorio si Panamá es potencial aliado de Chad, pero ninguno de los dos están registrados") {
-            shouldThrowAny { (Observatorio.sonPotencialesAliados("Panamá", "Chad")) }
+            shouldThrowAny { (decorador.sonPotencialesAliados("Panamá", "Chad")) }
         }
 
         it("Consultar al observatorio si Conviene ir de Uruguay a Argentina a comprar") {
-            Observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Uruguay", "Argentina").shouldBeTrue()
+            decorador.convieneIrDeComprasDesdeUnPaisAOtro("Uruguay", "Argentina").shouldBeTrue()
         }
 
         it("Consultar al observatorio si conviene ir de Argentina a Brasil a comprar") {
-            Observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Argentina", "Brasil").shouldBeFalse()
+            decorador.convieneIrDeComprasDesdeUnPaisAOtro("Argentina", "Brasil").shouldBeFalse()
         }
 
         it("Consultar al observatorio si conviene ir de Argentina a Chad a comprar, pero Chad no está registrado") {
-            shouldThrowAny { (Observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Argentina", "Chad")) }
+            shouldThrowAny { (decorador.convieneIrDeComprasDesdeUnPaisAOtro("Argentina", "Chad")) }
         }
 
         it("Consultar al observatorio si conviene ir de Panamá a Argentina a comprar, pero Panamá no está registrado") {
-            shouldThrowAny { (Observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Panamá", "Argentina")) }
+            shouldThrowAny { (decorador.convieneIrDeComprasDesdeUnPaisAOtro("Panamá", "Argentina")) }
         }
 
         it("Consultar al observatorio si conviene ir de Panamá a Chad a comprar, pero ninguno de los dos están registrados") {
-            shouldThrowAny { (Observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Panamá", "Chad")) }
+            shouldThrowAny { (decorador.convieneIrDeComprasDesdeUnPaisAOtro("Panamá", "Chad")) }
         }
 
         it("Consultar al observatorio si Consultar si conviene ir a comprar de Argentina a Argentina debe devolver un error") {
-            shouldThrowAny { Observatorio.convieneIrDeComprasDesdeUnPaisAOtro("Argentina", "Argentina") }
+            shouldThrowAny { decorador.convieneIrDeComprasDesdeUnPaisAOtro("Argentina", "Argentina") }
         }
 
         it("Consultar al observatorio a cuánto equivalen $5000 argentinos en reales brasileros"){
-            Observatorio.aCuantoEquivale("Argentina", "Brasil", 5000.0).shouldBe(198.52.plusOrMinus(0.1))
+            decorador.aCuantoEquivale("Argentina", "Brasil", 5000.0).shouldBe(198.52.plusOrMinus(0.1))
         }
 
         it("Consultar al observatorio a cuánto equivalen $2000 argentinos en francos de Chad, pero Chad no está registrado") {
-            shouldThrowAny { (Observatorio.aCuantoEquivale("Argentina", "Chad", 2000.0)) }
+            shouldThrowAny { (decorador.aCuantoEquivale("Argentina", "Chad", 2000.0)) }
         }
 
         it("Consultar al observatorio a cuánto equivalen $10000 balboas panameñas en pesos argentinos, pero Panamá no está registrado") {
-            shouldThrowAny { (Observatorio.aCuantoEquivale("Panamá", "Argentina", 10000.0)) }
+            shouldThrowAny { (decorador.aCuantoEquivale("Panamá", "Argentina", 10000.0)) }
         }
 
         it("Consultar al observatorio a cuánto equivalen $5000 balboas panameñas en francos de Chad, pero ninguno de los dos están registrados") {
-            shouldThrowAny { (Observatorio.aCuantoEquivale("Panamá", "Chad", 5000.0)) }
+            shouldThrowAny { (decorador.aCuantoEquivale("Panamá", "Chad", 5000.0)) }
         }
     }
 
     describe("Tests unitarios para el observatorio con todos los países") {
         it("Obtener los códigos de los cinco países con mayor densidad poblacional"){
             //Los cinco países son: IND(417.3), ITA(199.9), CHN(146.2), FRA(99.8), MAD(44.7)
-            Observatorio.obtenerPaisesConMayorDensidad().shouldBe(mutableSetOf("IND", "ITA", "CHN", "FRA", "MAD"))
+            decorador.obtenerPaisesConMayorDensidad().shouldBe(mutableSetOf("IND", "ITA", "CHN", "FRA", "MAD"))
         }
 
-        it("Obtener el continente con más países plurinacionales"){
-            // El único continente con dos países plurinacionales es América (Canadá y EEUU)
-           Observatorio.continenteMasPlurinacional().shouldBe("América")
+        it("Obtener el continente con más países plurinacionales mediante el decorador que modifica el mensaje"){
+            decorador.continenteMasPlurinacional().shouldBe("El continente más plurinacional es América")
         }
 
         it("Obtener el promedio de la densidad poblacional de las islas") {
             // 19 (NZL) + 45 (MAD) = 64 / 2(cantIslas) = 32
-            Observatorio.promedioDensidadPoblacionalDeIslas().shouldBe(32)
+            decorador.promedioDensidadPoblacionalDeIslas().shouldBe(32)
         }
     }
 })
